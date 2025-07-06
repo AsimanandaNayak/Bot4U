@@ -466,7 +466,7 @@ class RAGHandler:
         """Create RAG chain for response generation."""
         try:
             # Get API key from environment for better security
-            api_key = os.getenv('GROQ_API_KEY', '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')
+            api_key = os.getenv('GROQ_API_KEY', 'your_groq_api')
             
             llm = ChatGroq(
                 temperature=0.7,  # Slightly higher for more natural responses

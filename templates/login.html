@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asim Luxury Hotel - Admin Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+        :root {
+            --primary: #C0A080;
+            --primary-dark: #9A815D;
+            --secondary: #2C3E50;
+            --accent: #E5C59E;
+            --background: #1A1A1A;
+            --card-bg: #232323;
+            --text-light: #E0E0E0;
+            --gold: #D4AF37;
+            --white: #FFFFFF;
+            --red: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--background) 0%, #2A2A2A 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        body::before {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(192, 160, 128, 0.1) 0%, transparent 70%);
+        }
+
+        body::after {
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(35, 35, 35, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hotel-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-title {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            opacity: 0.9;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(192, 160, 128, 0.2);
+        }
+
+        .form-icon {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            color: var(--primary);
+            opacity: 0.8;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(192, 160, 128, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn i {
+            margin-right: 0.5rem;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+
+        .error-message {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--red);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(244, 67, 54, 0.2);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .back-to-site {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-site:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Loading animation */
+        .login-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .login-btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-to-site">
+        <i class="fas fa-arrow-left"></i> Back to Hotel
+    </a>
+
+    <div class="login-container">
+        <div class="login-header">
+            <div class="hotel-logo">ASIM LUXURY</div>
+            <div class="login-title">Admin Dashboard</div>
+        </div>
+
+        <div class="error-message" id="error-message">
+            <i class="fas fa-exclamation-circle"></i> Invalid username or password
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <i class="fas fa-user form-icon"></i>
+                <input type="text" class="form-input" id="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <i class="fas fa-lock form-icon"></i>
+                <input type="password" class="form-input" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-btn" id="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+
+        <div class="login-footer">
+            © 2025 Asim Luxury Hotel
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const loginBtn = document.getElementById('login-btn');
+            const errorMessage = document.getElementById('error-message');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Show loading state
+                loginBtn.classList.add('loading');
+                errorMessage.classList.remove('show');
+                
+                // Get form data
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                
+                try {
+                    // Send login request
+                    const response = await fetch('/dashboard/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok && data.success) {
+                        // Redirect to dashboard
+                        window.location.href = '/dashboard';
+                    } else {
+                        // Show error message
+                        errorMessage.classList.add('show');
+                        loginBtn.classList.remove('loading');
+                        
+                        // Clear password field
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    errorMessage.textContent = 'An error occurred. Please try again.';
+                    errorMessage.classList.add('show');
+                    loginBtn.classList.remove('loading');
+                }
+            });
+            
+            // Clear error message when input changes
+            usernameInput.addEventListener('input', () => {
+                errorMessage.classList.remove('show');
+            });
+            
+            passwordInput.addEventListener('input', () => {
+                errorMessage.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>

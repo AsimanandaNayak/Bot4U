@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asim Luxury Hotel</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+        :root {
+            --primary: #C0A080;
+            --primary-dark: #9A815D;
+            --secondary: #2C3E50;
+            --accent: #E5C59E;
+            --background: #1A1A1A;
+            --text-light: #E0E0E0;
+            --gold: #D4AF37;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--background) 0%, #2A2A2A 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(to right, #1e2023 0%, #23282d 100%);
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(192, 160, 128, 0.2);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(192, 160, 128, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hotel-brand {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hotel-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .hotel-tagline {
+            font-size: 16px;
+            color: var(--text-light);
+            font-weight: 300;
+            letter-spacing: 1.5px;
+            opacity: 0.9;
+        }
+
+        .chat-wrapper {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            height: calc(100vh - 160px);
+        }
+
+        .chat-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(192, 160, 128, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(192, 160, 128, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            animation: messageSlide 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            align-items: flex-end;
+        }
+
+        .bot-message {
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message .message-bubble {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message .message-bubble {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-light);
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(192, 160, 128, 0.2);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+        .options-container {
+            padding: 20px;
+            border-top: 1px solid rgba(192, 160, 128, 0.2);
+            display: none;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .option-button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(192, 160, 128, 0.2);
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 160, 128, 0.3);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        }
+
+        .input-container {
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            border-top: 1px solid rgba(192, 160, 128, 0.2);
+            position: relative;
+        }
+
+        .input-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, 
+                transparent 0%, 
+                rgba(192, 160, 128, 0.5) 50%,
+                transparent 100%
+            );
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 15px 25px;
+            border: 2px solid rgba(192, 160, 128, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(192, 160, 128, 0.2);
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(192, 160, 128, 0.2);
+        }
+
+        .send-button:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(192, 160, 128, 0.3);
+        }
+
+        .send-button i {
+            font-size: 20px;
+            transform: translateX(2px);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 6px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            width: fit-content;
+            border: 1px solid rgba(192, 160, 128, 0.2);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typing-bounce 1.4s infinite ease-in-out;
+            opacity: 0.7;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing-bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* Custom Scrollbar */
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto; /* Allow vertical scrolling on mobile */
+            }
+
+            .chat-wrapper {
+                margin: 10px auto;
+                padding: 0 10px;
+                height: auto; /* Allow dynamic height */
+                min-height: calc(100vh - 120px);
+            }
+
+            .chat-container {
+                height: calc(100vh - 140px); /* Adjust to ensure full viewport usage */
+                max-height: none;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .messages {
+                flex: 1;
+                overflow-y: auto;
+                padding: 15px;
+                overscroll-behavior-y: contain; /* Prevent bounce effect on iOS */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            }
+
+            .hotel-logo {
+                font-size: 28px;
+            }
+
+            .hotel-tagline {
+                font-size: 14px;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .input-container {
+                padding: 15px;
+                flex-shrink: 0;
+            }
+
+            .input-field {
+                font-size: 16px; /* Prevent automatic zoom on input focus */
+                padding: 12px 20px;
+            }
+
+            .options-container {
+                padding: 10px;
+                max-height: 250px;
+                overflow-y: auto;
+            }
+
+            .option-button {
+                width: 100%;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Prevent automatic zoom on input focus for iOS */
+        @media screen and (-webkit-min-device-pixel-ratio:0) { 
+            select,
+            textarea,
+            input {
+                font-size: 16px;
+            }
+        }
+
+        /* Additional mobile-specific touch improvements */
+        @media (max-width: 768px) {
+            .send-button,
+            .option-button {
+                touch-action: manipulation; /* Improve touch responsiveness */
+            }
+
+            /* Improve tap targets */
+            .send-button,
+            .option-button {
+                min-height: 44px; /* Recommended minimum tap target size */
+                min-width: 44px;
+            }
+        }
+
+        /* Animations */
+        .chat-container {
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hotel-logo {
+            animation: fadeInDown 0.5s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hotel-tagline {
+            animation: fadeIn 0.5s ease-out 0.3s both;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="hotel-brand">
+            <h1 class="hotel-logo">ASIM LUXURY HOTEL</h1>
+            <p class="hotel-tagline">Experience Unparalleled Luxury</p>
+        </div>
+    </header>
+
+        <!-- Admin Access Link (add near the end of the body) -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/dashboard/login" style="color: #C0A080; font-size: 0.8rem; text-decoration: none;">Staff Portal</a>
+    </div>
+
+    <div class="chat-wrapper">
+        <div class="chat-container">
+            <div class="messages" id="messages"></div>
+            <div class="options-container" id="options"></div>
+            <div class="input-container">
+                <input type="text" class="input-field" id="messageInput" placeholder="Type your message here...">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messagesContainer = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const optionsContainer = document.getElementById('options');
+
+        // Initial welcome message with luxury-themed options
+        setTimeout(() => {
+            addBotMessage("Welcome to Asim Luxury Hotel. How may we assist you today? ✨");
+            showOptions([
+                { icon: "fa-hotel", text: "🏨 Book a Suite", value: "book" },
+                { icon: "fa-concierge-bell", text: "🛎️ Concierge Services", value: "concierge" },
+                { icon: "fa-right-from-bracket", text: "🔑 Check-out", value: "checkout" },
+                { icon: "fa-circle-question", text: "❓ Inquiries", value: "faq" }
+            ]);
+        }, 1000);
+
+        function addMessage(content, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            messageBubble.textContent = content;
+            
+            const timeSpan = document.createElement('div');
+            timeSpan.className = 'message-time';
+            timeSpan.textContent = new Date().toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            
+            messageDiv.appendChild(messageBubble);
+            messageDiv.appendChild(timeSpan);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Add fade-in animation
+            messageBubble.style.opacity = '0';
+            messageBubble.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                messageBubble.style.opacity = '1';
+                messageBubble.style.transform = 'translateY(0)';
+                messageBubble.style.transition = 'all 0.3s ease-out';
+            }, 50);
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'message bot-message';
+            indicator.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            messagesContainer.appendChild(indicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return indicator;
+        }
+
+        function showOptions(options) {
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.innerHTML = `<i class="fas ${option.icon}"></i>${option.text}`;
+                button.onclick = () => {
+                    sendMessage(option.value);
+                };
+                optionsContainer.appendChild(button);
+            });
+            optionsContainer.style.display = 'flex';
+
+            // Add staggered animation to buttons
+            const buttons = optionsContainer.querySelectorAll('.option-button');
+            buttons.forEach((button, index) => {
+                button.style.opacity = '0';
+                button.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    button.style.opacity = '1';
+                    button.style.transform = 'translateY(0)';
+                    button.style.transition = 'all 0.3s ease-out';
+                }, index * 100);
+            });
+        }
+
+        async function sendMessage(message) {
+            if (!message.trim()) return;
+            
+            // Check if it's a GST download request
+            if (message.startsWith('download_gst_')) {
+                const email = message.replace('download_gst_', '');
+                try {
+                    window.location.href = `/download_gst/${email}`;
+                    addMessage("Your GST report is being downloaded...", false);
+                } catch (error) {
+                    console.error('Error downloading GST report:', error);
+                    addMessage("Sorry, there was an error downloading the GST report. Please try again.", false);
+                }
+                return;
+            }
+            
+            addMessage(message, true);
+            const typingIndicator = showTypingIndicator();
+            optionsContainer.style.display = 'none';
+            messageInput.value = '';
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                
+                setTimeout(() => {
+                    typingIndicator.remove();
+                    
+                    if (data.messages) {
+                        data.messages.forEach((msg, index) => {
+                            setTimeout(() => {
+                                addMessage(msg, false);
+                            }, index * 500);
+                        });
+                    }
+                    
+                    if (data.options) {
+                        setTimeout(() => {
+                            showOptions(data.options);
+                        }, data.messages ? data.messages.length * 500 : 0);
+                    }
+                    
+                    // If download URL is present
+                    if (data.download_url) {
+                        showOptions([{
+                            icon: 'fa-download',
+                            text: '📥 Download GST Report',
+                            value: `download_gst_${message}`
+                        }]);
+                    }
+                }, 1500);
+                
+            } catch (error) {
+                setTimeout(() => {
+                    typingIndicator.remove();
+                    addMessage("I apologize, but I'm having trouble processing your request. Please try again.", false);
+                }, 1500);
+            }
+        }
+
+        // Add smooth scroll behavior
+        const smoothScroll = () => {
+            const scrollHeight = messagesContainer.scrollHeight;
+            const scrollStep = Math.PI / (1000 / 15);
+            let count = 0;
+            let position = messagesContainer.scrollTop;
+
+            const cosParameter = (scrollHeight - messagesContainer.offsetHeight) / 2;
+            const scrollMargin = position - cosParameter;
+            const scrollEnd = position + cosParameter;
+
+            const scrollAnimation = () => {
+                if (position < scrollEnd) {
+                    count += 1;
+                    position = scrollMargin + cosParameter * Math.sin(count * scrollStep);
+                    messagesContainer.scrollTop = position;
+                    requestAnimationFrame(scrollAnimation);
+                }
+            };
+            requestAnimationFrame(scrollAnimation);
+        };
+
+        // Event Listeners
+        sendButton.addEventListener('click', () => {
+            sendMessage(messageInput.value);
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage(messageInput.value);
+            }
+        });
+
+        // Add focus effects
+        messageInput.addEventListener('focus', () => {
+            messageInput.parentElement.style.boxShadow = '0 0 20px rgba(192, 160, 128, 0.2)';
+        });
+
+        messageInput.addEventListener('blur', () => {
+            messageInput.parentElement.style.boxShadow = 'none';
+        });
+
+        // Add hover effects to send button
+        sendButton.addEventListener('mouseenter', () => {
+            sendButton.style.transform = 'scale(1.1)';
+        });
+
+        sendButton.addEventListener('mouseleave', () => {
+            sendButton.style.transform = 'scale(1)';
+        });
+
+        // Add responsive design adjustments
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                optionsContainer.style.flexDirection = 'column';
+            } else {
+                optionsContainer.style.flexDirection = 'row';
+            }
+        });
+
+        // GST download 
+        async function handleGSTDownload(email) {
+    try {
+        // Create invisible link for download
+        const link = document.createElement('a');
+        link.href = `/download_gst/${email}`;
+        link.download = `GST_Report_${new Date().toISOString().split('T')[0]}.xlsx`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message
+        addMessage("GST report has been downloaded successfully!", false);
+    } catch (error) {
+        console.error('Error downloading GST report:', error);
+        addMessage("Sorry, there was an error downloading the GST report. Please try again.", false);
+    }
+}
+
+    </script>
+</body>
+</html>

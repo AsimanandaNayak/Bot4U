@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asim Luxury Hotel - Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ASIM LUXURY</div>
+            <div class="sidebar-title">ADMIN DASHBOARD</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-menu-item">
+                <a href="#" class="sidebar-menu-link active" data-tab="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+            </li>
+            <li class="sidebar-menu-item">
+                <a href="#" class="sidebar-menu-link" data-tab="bookings">
+                    <i class="fas fa-calendar-check"></i> Bookings
+                </a>
+            </li>
+            <li class="sidebar-menu-item">
+                <a href="#" class="sidebar-menu-link" data-tab="guests">
+                    <i class="fas fa-users"></i> Guests
+                </a>
+            </li>
+            <li class="sidebar-menu-item">
+                <a href="#" class="sidebar-menu-link" data-tab="gst-reports">
+                    <i class="fas fa-file-invoice"></i> GST Reports
+                </a>
+            </li>
+            <li class="sidebar-menu-item">
+                <a href="#" class="sidebar-menu-link" data-tab="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </li>
+            <li class="sidebar-menu-item">
+                <a href="/dashboard/logout" class="sidebar-menu-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            © 2025 Asim Luxury Hotel
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="dashboard-tab">
+            <div class="header">
+                <h1 class="header-title">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="header-btn" id="refresh-data">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">Total Bookings</div>
+                    <div class="card-value" id="total-bookings">0</div>
+                    <div class="card-comparison">
+                        <i class="fas fa-arrow-up card-up"></i> <span id="bookings-trend">0%</span> from last month
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Active Bookings</div>
+                    <div class="card-value" id="active-bookings">0</div>
+                    <div class="card-comparison">
+                        Currently active
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Total Revenue</div>
+                    <div class="card-value" id="total-revenue">₹0</div>
+                    <div class="card-comparison">
+                        <i class="fas fa-arrow-up card-up"></i> <span id="revenue-trend">0%</span> from last month
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">GST Collected</div>
+                    <div class="card-value" id="total-gst">₹0</div>
+                    <div class="card-comparison">
+                        18% of revenue
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Revenue Overview</div>
+                        <div class="chart-actions">
+                            <button class="chart-btn active" data-period="week">Week</button>
+                            <button class="chart-btn" data-period="month">Month</button>
+                            <button class="chart-btn" data-period="year">Year</button>
+                        </div>
+                    </div>
+                    <div class="chart-canvas-container">
+                        <canvas id="revenue-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Room Distribution</div>
+                    </div>
+                    <div class="chart-canvas-container">
+                        <canvas id="room-distribution-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Availability Section -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Room Availability</div>
+                </div>
+                <div class="room-availability" id="room-availability">
+                    <!-- Room availability cards will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Recent Bookings Table -->
+            <div class="table-section">
+                <div class="chart-header">
+                    <div class="chart-title">Recent Bookings</div>
+                    <div class="chart-actions">
+                        <button class="chart-btn" id="view-all-bookings">View All</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="table" id="recent-bookings-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Guest Name</th>
+                                <th>Room</th>
+                                <th>Check-in</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-bookings-body">
+                            <!-- Recent bookings will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings Tab -->
+        <div class="tab-content" id="bookings-tab">
+            <div class="header">
+                <h1 class="header-title">Bookings Management</h1>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-booking-status="all">All Bookings</div>
+                <div class="tab" data-booking-status="active">Active</div>
+                <div class="tab" data-booking-status="checked-out">Checked Out</div>
+            </div>
+
+            <div class="table-container">
+                <table class="table" id="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Guest Name</th>
+                            <th>Contact</th>
+                            <th>Room Type</th>
+                            <th>Room Number</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-table-body">
+                        <!-- Bookings will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Guests Tab -->
+        <div class="tab-content" id="guests-tab">
+            <div class="header">
+                <h1 class="header-title">Guest Management</h1>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="table" id="guests-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Last Stay</th>
+                            <th>Total Stays</th>
+                            <th>Total Spent</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guests-table-body">
+                        <!-- Guests will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- GST Reports Tab -->
+        <div class="tab-content" id="gst-reports-tab">
+            <div class="header">
+                <h1 class="header-title">GST Reports</h1>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-calendar"></i> Date Range
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-download"></i> Export All
+                    </button>
+                </div>
+            </div>
+
+            <div class="gst-reports-section" id="gst-reports-container">
+                <!-- GST reports will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings-tab">
+            <div class="header">
+                <h1 class="header-title">Settings</h1>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Account Settings</div>
+                </div>
+                <form id="account-settings-form">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Username</label>
+                        <input type="text" value="admin" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text-light);">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Email</label>
+                        <input type="email" value="admin@asimluxury.com" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text-light);">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Password</label>
+                        <input type="password" value="********" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: var(--text-light);">
+                    </div>
+                    <button type="submit" style="padding: 0.8rem 1.5rem; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Modal -->
+    <div class="modal-overlay" id="download-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Download GST Report</div>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem; color: var(--text-light);">Are you sure you want to download the GST report for:</p>
+                <p style="font-weight: 600; color: var(--primary);" id="download-guest-name">Guest Name</p>
+                <p style="margin-bottom: 1rem; color: var(--text-light);" id="download-booking-details">Booking details will appear here</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="cancel-download">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="confirm-download">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
